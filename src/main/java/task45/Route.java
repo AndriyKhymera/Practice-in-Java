@@ -2,17 +2,19 @@ package task45;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.NaturalId;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
+@ToString
 public class Route extends AbstractEntity {
 
     @NaturalId
@@ -28,6 +30,11 @@ public class Route extends AbstractEntity {
     @Fetch(FetchMode.SUBSELECT)
     @OrderBy("id")
     private Set<ModuleRoute> moduleRoutes = new LinkedHashSet<ModuleRoute>();
+
+    public String toString() {
+        Agent var10000 = this.getAgent();
+        return "Route(agent=" + var10000 + ", name=" + this.getName() + ", priority=" + this.getPriority() + ")";
+    }
 
     //getters and setters skipped for briefity.
 }

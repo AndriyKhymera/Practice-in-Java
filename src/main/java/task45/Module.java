@@ -1,16 +1,20 @@
 package task45;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.NaturalId;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
-import static javax.persistence.CascadeType.DETACH;
+import static jakarta.persistence.CascadeType.DETACH;
 
 @Entity
 @Getter
 @Setter
+@ToString
+@EqualsAndHashCode
 public class Module extends AbstractEntity {
 
     @NaturalId
@@ -23,9 +27,6 @@ public class Module extends AbstractEntity {
     @Column(nullable = false, length = 31)
     @Enumerated(EnumType.STRING)
     private ModuleType type;
-
-    public Module() {
-    }
 
     //getters and setters skipped for briefity.
 }
