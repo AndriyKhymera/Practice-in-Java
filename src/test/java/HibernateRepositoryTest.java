@@ -4,9 +4,8 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
-import task45.*;
 import task45.Module;
+import task45.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
