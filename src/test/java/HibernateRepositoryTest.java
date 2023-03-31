@@ -1,24 +1,24 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.HashSet;
-import java.util.Set;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import task45.HibernateRepository;
+import task45.Module;
+import task45.ModuleType;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.jdbc.Sql;
-import task45.Agent;
-import task45.AgentType;
-import task45.HibernateRepository;
-import task45.ModuleType;
-import task45.Module;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DataJpaTest
-@Transactional
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 @Sql({"/schema.sql", "/data.sql"})
 public class HibernateRepositoryTest {
 
@@ -32,11 +32,16 @@ public class HibernateRepositoryTest {
     public void testGetModulesIncludedInCompleteRoutes() {
         Long agentId = 1L;
         Set<Module> expectedModules = new HashSet<>();
-        expectedModules.add(new Module(1L, new Agent(1L, "agent1", AgentType.TYPE1, "tp", ""), "module1", ModuleType.INPUT));
-        expectedModules.add(new Module(2L, new Agent(1L, "agent1", AgentType.TYPE2, ""), "module2", ModuleType.OUTPUT));
-        Module module = new Module();
-        module.setType(ModuleType.PROCESSOR);
-        expectedModules.add(new Module(3L, new Agent(), "module3", ));
+        Module module1 = new Module();
+        module1.setType(ModuleType.INPUT);
+        module1.setName("module1");
+        Module module2 = new Module();
+        module2.setType(ModuleType.OUTPUT);
+        module2.setName("module3");
+        Module module3 = new Module();
+        module3.setType(ModuleType.EXTENSION);
+        module3.setName("module3");
+        expectedModules.addAll(List.of(module1, module2, module3));
 
         Set<Module> actualModules = hibernateRepository.getModulesIncludedInCompleteRoutes(agentId);
 
